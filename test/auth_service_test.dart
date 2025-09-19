@@ -18,18 +18,21 @@ void main() {
     group('Login Tests', () {
       test('should login successfully with valid credentials', () async {
         // Act
-        final result = await authService.login('tomas', 'dontdothisinprod');
+        final result = await authService.login(
+          'tomas@example.com',
+          'dontdothisinprod',
+        );
 
         // Assert
         expect(result, isTrue);
         expect(authService.currentUser, isNotNull);
-        expect(authService.currentUser?.username, equals('tomas'));
+        expect(authService.currentUser?.email, equals('tomas@example.com'));
       });
 
-      test('should fail login with invalid username', () async {
+      test('should fail login with invalid email', () async {
         // Act
         final result = await authService.login(
-          'nonexistentuser',
+          'nonexistent@example.com',
           'password123',
         );
 
@@ -40,7 +43,10 @@ void main() {
 
       test('should fail login with invalid password', () async {
         // Act
-        final result = await authService.login('admin', 'wrongpassword');
+        final result = await authService.login(
+          'admin@example.com',
+          'wrongpassword',
+        );
 
         // Assert
         expect(result, isFalse);
@@ -50,7 +56,7 @@ void main() {
       test('should fail login with empty credentials', () async {
         // Act
         final result1 = await authService.login('', 'password');
-        final result2 = await authService.login('user', '');
+        final result2 = await authService.login('user@example.com', '');
 
         // Assert
         expect(result1, isFalse);
@@ -62,12 +68,15 @@ void main() {
     group('Sign Up Tests', () {
       test('should create new user with valid credentials', () async {
         // Act
-        final result = await authService.signUp('newuser', 'newpassword123');
+        final result = await authService.signUp(
+          'newuser@example.com',
+          'newpassword123',
+        );
 
         // Assert
         expect(result, isTrue);
         expect(authService.currentUser, isNotNull);
-        expect(authService.currentUser?.username, equals('newuser'));
+        expect(authService.currentUser?.email, equals('newuser@example.com'));
 
         // Verify password was hashed
         expect(
@@ -83,9 +92,12 @@ void main() {
         );
       });
 
-      test('should fail signup with existing username', () async {
+      test('should fail signup with existing email', () async {
         // Act
-        final result = await authService.signUp('tomas', 'dontdothisinprod');
+        final result = await authService.signUp(
+          'tomas@example.com',
+          'somepassword',
+        );
 
         // Assert
         expect(result, isFalse);
@@ -94,11 +106,11 @@ void main() {
 
       test('should assign unique IDs to new users', () async {
         // Act
-        await authService.signUp('user1', 'password1');
+        await authService.signUp('user1@example.com', 'password1');
         final user1Id = authService.currentUser?.id;
         authService.logout();
 
-        await authService.signUp('user2', 'password2');
+        await authService.signUp('user2@example.com', 'password2');
         final user2Id = authService.currentUser?.id;
 
         // Assert
@@ -109,25 +121,25 @@ void main() {
 
       test('should be able to login after signup', () async {
         // Arrange
-        const username = 'signup-then-login';
+        const email = 'signup-then-login@example.com';
         const password = 'testpassword';
 
         // Act
-        final signupResult = await authService.signUp(username, password);
+        final signupResult = await authService.signUp(email, password);
         authService.logout();
-        final loginResult = await authService.login(username, password);
+        final loginResult = await authService.login(email, password);
 
         // Assert
         expect(signupResult, isTrue);
         expect(loginResult, isTrue);
-        expect(authService.currentUser?.username, equals(username));
+        expect(authService.currentUser?.email, equals(email));
       });
     });
 
     group('Logout Tests', () {
       test('should clear current user on logout', () async {
         // Arrange
-        await authService.login('admin', 'admin');
+        await authService.login('admin@example.com', 'admin');
         expect(authService.currentUser, isNotNull);
 
         // Act
@@ -147,9 +159,9 @@ void main() {
     group('Utility Method Tests', () {
       test('userExists should return true for existing users', () {
         // Act & Assert
-        expect(authService.userExists('admin'), isTrue);
-        expect(authService.userExists('tomas'), isTrue);
-        expect(authService.userExists('nonexistent'), isFalse);
+        expect(authService.userExists('admin@example.com'), isTrue);
+        expect(authService.userExists('tomas@example.com'), isTrue);
+        expect(authService.userExists('nonexistent@example.com'), isFalse);
       });
 
       test('allUsers should return all registered users', () {
@@ -161,8 +173,8 @@ void main() {
           users.length,
           greaterThanOrEqualTo(2),
         ); // At least the 2 default users
-        expect(users.map((u) => u.username), contains('tomas'));
-        expect(users.map((u) => u.username), contains('admin'));
+        expect(users.map((u) => u.email), contains('tomas@example.com'));
+        expect(users.map((u) => u.email), contains('admin@example.com'));
       });
     });
 
@@ -173,7 +185,7 @@ void main() {
         authService.addListener(() => notificationCount++);
 
         // Act
-        await authService.login('tomas', 'dontdothisinprod');
+        await authService.login('tomas@example.com', 'dontdothisinprod');
 
         // Assert
         expect(notificationCount, equals(1));
@@ -185,7 +197,7 @@ void main() {
         authService.addListener(() => notificationCount++);
 
         // Act
-        await authService.signUp('newnewuser', 'password123');
+        await authService.signUp('newnewuser@example.com', 'password123');
 
         // Assert
         expect(notificationCount, equals(1));
@@ -193,7 +205,7 @@ void main() {
 
       test('should notify listeners on logout', () async {
         // Arrange
-        await authService.login('tomas', 'dontdothisinprod');
+        await authService.login('tomas@example.com', 'dontdothisinprod');
         var notificationCount = 0;
         authService.addListener(() => notificationCount++);
 
@@ -210,7 +222,7 @@ void main() {
         authService.addListener(() => notificationCount++);
 
         // Act
-        await authService.login('tomas', 'wrongpassword');
+        await authService.login('tomas@example.com', 'wrongpassword');
 
         // Assert
         expect(notificationCount, equals(0));

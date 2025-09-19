@@ -5,14 +5,14 @@ import '../models/user_model.dart';
 
 class AuthService extends ChangeNotifier {
   static final Map<String, User> _users = {
-    'admin': User(
+    'admin@example.com': User(
       id: 1,
-      username: 'admin',
+      email: 'admin@example.com',
       passwordHash: BCrypt.hashpw('admin', BCrypt.gensalt()),
     ),
-    'tomas': User(
+    'tomas@example.com': User(
       id: 2,
-      username: 'tomas',
+      email: 'tomas@example.com',
       passwordHash: BCrypt.hashpw('dontdothisinprod', BCrypt.gensalt()),
     ),
   };
@@ -20,26 +20,26 @@ class AuthService extends ChangeNotifier {
   User? _currentUser;
   User? get currentUser => _currentUser;
 
-  Future<bool> signUp(String username, String password) async {
-    if (_users.containsKey(username)) {
+  Future<bool> signUp(String email, String password) async {
+    if (_users.containsKey(email)) {
       return false;
     }
 
     final newUser = User(
       id: _users.length + 1,
-      username: username,
+      email: email,
       passwordHash: BCrypt.hashpw(password, BCrypt.gensalt()),
     );
 
-    _users[username] = newUser;
+    _users[email] = newUser;
     _currentUser = newUser;
     notifyListeners();
     return true;
   }
 
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String email, String password) async {
     try {
-      final user = _users[username];
+      final user = _users[email];
 
       if (user != null && BCrypt.checkpw(password, user.passwordHash)) {
         _currentUser = user;

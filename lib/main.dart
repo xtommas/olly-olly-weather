@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import './screens/login_screen.dart';
+import './services/auth_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,11 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Flutter Demo Home Page')),
-        body: const Center(child: Text('Hello, World!')),
+    return ChangeNotifierProvider(
+      create: (context) => AuthService(),
+      child: MaterialApp(
+        title: 'Weather',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: const LoginScreen(),
       ),
     );
   }

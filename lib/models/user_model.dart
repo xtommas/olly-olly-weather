@@ -1,7 +1,7 @@
 class User {
   final int id;
-  final String username;
+  final String email;
   final String passwordHash;
 
-  User({required this.id, required this.username, required this.passwordHash});
+  User({required this.id, required this.email, required this.passwordHash});
 }
