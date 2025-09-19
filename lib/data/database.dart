@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 import 'package:flutter/foundation.dart';
+import 'package:olly_olly_weather/data/user_dao.dart';
 
 part 'database.g.dart';
 
@@ -12,7 +13,7 @@ class Users extends Table {
 
 @DriftDatabase(tables: [Users])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(QueryExecutor e) : super(e);
+  AppDatabase(super.e);
 
   @override
   int get schemaVersion => 1;
@@ -38,4 +39,8 @@ DatabaseConnection connect() {
       return result.resolvedExecutor;
     }),
   );
+}
+
+extension DaoAccessors on AppDatabase {
+  UserDao get userDao => UserDao(this);
 }
