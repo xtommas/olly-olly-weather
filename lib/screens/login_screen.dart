@@ -54,8 +54,8 @@ class LoginScreen extends StatelessWidget {
           ),
 
           // Background styling
-          pageColorLight: Color(0xFF1A1A1A),
-          pageColorDark: Color(0xFF1A1A1A),
+          pageColorLight: Colors.black,
+          pageColorDark: Colors.black,
 
           // Card styling
           cardTheme: CardTheme(
