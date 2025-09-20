@@ -1,7 +1,6 @@
 import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../lib/services/auth_service.dart';
+import 'package:olly_olly_weather/services/auth_service.dart';
 
 void main() {
   group('AuthService Tests', () {
