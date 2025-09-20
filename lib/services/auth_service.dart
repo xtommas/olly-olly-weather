@@ -60,5 +60,5 @@ class AuthService extends ChangeNotifier {
 
   // Mainly for tests
   List<User> get allUsers => _users.values.toList();
-  bool userExists(String username) => _users.containsKey(username);
+  bool userExists(String email) => _users.containsKey(email);
 }
