@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 import './screens/login_screen.dart';
 import './services/auth_service.dart';
 
-void main() {
+void main() async {
+  // load .env
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    throw Exception('Error loading .env file: $e');
+  }
   runApp(const MyApp());
 }
 

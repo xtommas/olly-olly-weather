@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFF6C7B7F), // Your spinner color
+          primary: const Color(0xFF6C7B7F),
         ),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFF6C7B7F), // text cursor
@@ -57,7 +57,7 @@ class LoginScreen extends StatelessWidget {
           pageColorLight: Color(0xFF1A1A1A),
           pageColorDark: Color(0xFF1A1A1A),
 
-          // Card styling - clean and minimal
+          // Card styling
           cardTheme: CardTheme(
             color: Colors.white,
             elevation: 8,
