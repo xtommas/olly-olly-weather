@@ -22,11 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AuthService(),
-      child: MaterialApp(
-        title: 'Weather',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: const LoginScreen(),
-      ),
+      child: MaterialApp(title: 'Weather', home: const LoginScreen()),
     );
   }
 }
