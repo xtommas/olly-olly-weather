@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+    final authService = Provider.of<AuthService>(context, listen: false);
     final user = authService.currentUser;
     final screenWidth = MediaQuery.of(context).size.width;
     final isDesktop = screenWidth > 768;
